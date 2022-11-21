@@ -4,12 +4,24 @@ export const unpkgPathPlugin = () => {
   return {
     name: "unpkg-path-plugin",
     setup(build: esbuild.PluginBuild) {
+      // fileter for root entry file of 'index.js'
       build.onResolve({ filter: /.*/ }, async (args: any) => {
         console.log("onResolve", args);
+        // namespace
         return { path: args.path, namespace: "a" };
       });
 
-      build.onLoad({ filter: /.*/ }, async (args: any) => {
+      // build.onResolve({ filter: /.*/ }, async (args: any) => {
+      //   console.log("onResolve", args);
+      //   return { path: args.path, namespace: "a" };
+      // });
+
+      // build.onResolve({ filter: /.*/ }, async (args: any) => {
+      //   console.log("onResolve", args);
+      //   return { path: args.path, namespace: "a" };
+      // });
+
+      build.onLoad({ filter: /.*/, namespace: "a" }, async (args: any) => {
         console.log("onLoad", args);
 
         if (args.path === "index.js") {
